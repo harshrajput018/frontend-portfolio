@@ -141,12 +141,12 @@ export default function CommandPalette() {
   return (
     <>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 px-4 pt-[14vh] backdrop-blur-sm" onMouseDown={close}>
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-ink/25 px-4 pt-[14vh]" onMouseDown={close}>
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"
-            className="w-full max-w-lg overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow)]"
+            className="w-full max-w-lg overflow-hidden rounded-soft border border-rule bg-paper shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)]"
             onMouseDown={(e) => e.stopPropagation()}
           >
             <input
@@ -154,40 +154,40 @@ export default function CommandPalette() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={onInputKey}
-              placeholder="Search sections, projects, actions…"
+              placeholder="jump to a section, project or action"
               role="combobox"
               aria-expanded="true"
               aria-controls="palette-list"
               aria-activedescendant={filtered[index] ? `opt-${filtered[index].id}` : undefined}
-              className="w-full border-b border-line bg-transparent px-4 py-3.5 text-[15px] outline-none placeholder:text-muted"
+              className="w-full border-b border-rule bg-transparent px-5 py-3 text-body outline-none placeholder:text-ink-3"
             />
-            <ul id="palette-list" role="listbox" className="max-h-80 overflow-y-auto p-2">
-              {filtered.length === 0 && <li className="px-3 py-6 text-center text-sm text-muted">No matches for “{query}”</li>}
+            <ul id="palette-list" role="listbox" className="max-h-80 overflow-y-auto py-2">
+              {filtered.length === 0 && <li className="px-5 py-5 text-small text-ink-2">No matches for “{query}”</li>}
               {filtered.map((a, i) => {
                 const header = a.group !== lastGroup ? a.group : null;
                 lastGroup = a.group;
                 return (
                   <li key={a.id} role="presentation">
-                    {header && <div className="px-3 pb-1 pt-3 font-mono text-[11px] uppercase tracking-wider text-muted">{header}</div>}
+                    {header && <div className="px-5 pb-1 pt-3 font-mono text-meta lowercase text-ink-3">{header}</div>}
                     <div
                       id={`opt-${a.id}`}
                       role="option"
                       aria-selected={i === index}
                       onMouseMove={() => setIndex(i)}
                       onClick={() => run(a)}
-                      className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm ${
-                        i === index ? "bg-accent-soft text-fg" : "text-muted"
+                      className={`flex cursor-pointer items-center gap-3 border-l-2 px-5 py-2 text-small ${
+                        i === index ? "border-accent bg-paper-2 text-ink" : "border-transparent text-ink-2"
                       }`}
                     >
-                      <span className={i === index ? "text-accent" : ""}>{a.icon}</span>
-                      <span className="text-fg">{a.label}</span>
-                      <span className="ml-auto truncate text-xs text-muted">{a.hint}</span>
+                      <span className="text-ink-3">{a.icon}</span>
+                      <span className="text-ink">{a.label}</span>
+                      <span className="ml-auto truncate font-mono text-meta text-ink-3">{a.hint}</span>
                     </div>
                   </li>
                 );
               })}
             </ul>
-            <div className="flex gap-4 border-t border-line px-4 py-2 font-mono text-[11px] text-muted">
+            <div className="flex gap-5 border-t border-rule px-5 py-2 font-mono text-meta text-ink-3">
               <span>↑↓ move</span>
               <span>↵ open</span>
               <span>esc close</span>
@@ -196,7 +196,7 @@ export default function CommandPalette() {
         </div>
       )}
       <div role="status" aria-live="polite" className="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
-        {toast && <div className="rounded-lg border border-line bg-surface px-4 py-2 text-sm shadow-[var(--shadow)]">{toast}</div>}
+        {toast && <div className="rounded-tight border border-rule bg-paper px-3 py-2 text-small">{toast}</div>}
       </div>
     </>
   );

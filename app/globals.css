@@ -2,127 +2,111 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/*
+  Palette — warm paper and ink, one accent.
+  Accent is for links, the active index mark and one marker per block. Nothing else.
+*/
 :root {
-  --bg: #f7f6fc;
-  --bg-2: #efedf8;
-  --surface: #ffffff;
-  --surface-2: #f1effa;
-  --border: #e2def2;
-  --text: #15132a;
-  --muted: #5f5b78;
-  --accent: #6d4fe0;
-  --accent-soft: rgba(109, 79, 224, 0.1);
-  --accent-2: #0f9d76;
-  --star: 95, 91, 120;
-  --star-accent: 109, 79, 224;
-  --shadow: 0 1px 2px rgba(21, 19, 42, 0.04), 0 10px 30px rgba(21, 19, 42, 0.08);
+  --paper: #f4f1ea;
+  --paper-2: #ebe6db;
+  --ink: #1b1a17;
+  --ink-2: #57534b;
+  --ink-3: #8a857a;
+  --rule: #d8d2c4;
+  --accent: #c8411a;
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0a0916;
-  --bg-2: #100f21;
-  --surface: #14132a;
-  --surface-2: #1c1a37;
-  --border: #272546;
-  --text: #ecebf5;
-  --muted: #9b98b5;
-  --accent: #b9a8ff;
-  --accent-soft: rgba(185, 168, 255, 0.14);
-  --accent-2: #7ee0c3;
-  --star: 220, 218, 240;
-  --star-accent: 200, 120, 255;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.45);
+  --paper: #151412;
+  --paper-2: #1c1a17;
+  --ink: #ece7dc;
+  --ink-2: #a8a294;
+  --ink-3: #77726a;
+  --rule: #2e2b26;
+  --accent: #ff7a4d;
   color-scheme: dark;
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-bg-2: var(--bg-2);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-line: var(--border);
-  --color-fg: var(--text);
-  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-accent-2: var(--accent-2);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Type scale: 1.25 ratio from a 17px body; display skips a rung on purpose */
+  --text-meta: 13px;
+  --text-meta--line-height: 1.45;
+  --text-small: 15px;
+  --text-small--line-height: 1.5;
+  --text-body: 17px;
+  --text-body--line-height: 1.55;
+  --text-lead: 21px;
+  --text-lead--line-height: 1.4;
+  --text-h3: 27px;
+  --text-h3--line-height: 1.15;
+  --text-h2: 41px;
+  --text-h2--line-height: 1.1;
+  --text-display: 64px;
+  --text-display--line-height: 1.05;
+  --text-display-sm: 44px;
+  --text-display-sm--line-height: 1.08;
+
+  /* Exactly two radii */
+  --radius-tight: 2px;
+  --radius-soft: 10px;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 32px;
 }
 
 body {
-  overflow-x: clip;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 6px;
 }
 
-/* Rotating hero subtitle: each phrase slides up into place */
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(0.4em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* Links in running text: hairline underline that darkens on hover */
+.link {
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 150ms ease-out, color 150ms ease-out;
 }
-.rise {
-  animation: rise 0.5s ease both;
-}
-
-@keyframes float {
-  50% {
-    transform: translateY(-6px);
-  }
-}
-.float {
-  animation: float 5s ease-in-out infinite;
-}
-
-.js .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
+.link:hover {
+  text-decoration-color: currentColor;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

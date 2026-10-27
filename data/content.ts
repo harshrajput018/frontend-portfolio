@@ -3,7 +3,7 @@ export const profile = {
   role: "Frontend Engineer",
   stackLine: "React · TypeScript · Next.js",
   tagline:
-    "I build fast, accessible product interfaces — dashboards, real-time collaboration and data-heavy screens — and I'm comfortable going down the stack when the UI needs it.",
+    "I like the parts of frontend most people hand to a library: canvas rendering, virtualised tables, text editors, focus management. Two years in. Right now I build the Ionic React app that monitors AC, lighting and CCTV on Vande Bharat trains.",
   email: "harshrajput18@gmail.com",
   phone: "+91 7827960243",
   location: "New Delhi, India",
@@ -14,9 +14,9 @@ export const profile = {
 };
 
 export const stats = [
-  { value: "2 yrs", label: "building production software" },
-  { value: "4", label: "frontend systems built from scratch" },
-  { value: "50", label: "tests across those projects" },
+  { value: "2 yrs", label: "writing production software" },
+  { value: "4", label: "systems built without the usual library" },
+  { value: "50", label: "tests across them" },
 ];
 
 export type Project = {
@@ -147,7 +147,16 @@ export const skills = [
 ];
 
 export const principles = [
-  { title: "Fast by default", body: "Cache what the server already told you, keep interactions instant, and never block the UI on a spinner you could have avoided." },
-  { title: "Accessible, not afterthought", body: "Real buttons, visible focus, keyboard paths and reduced-motion support — this site included. Try ⌘K." },
-  { title: "Own the whole feature", body: "From the API contract to the empty state and the error toast — I'd rather ship one complete thing than three half-done ones." },
+  {
+    title: "The spinner is usually a bug.",
+    body: "If the server already told you something, show it. I cache hard and treat every loading state as a question: did this really need a round trip?",
+  },
+  {
+    title: "Keyboard first, then mouse.",
+    body: "Real buttons, visible focus, arrow keys wherever a list behaves like a list. Everything on this page works without a mouse. Try ⌘K.",
+  },
+  {
+    title: "Finish the boring 20%.",
+    body: "The empty state, the error message, the undo. That's where an interface feels made instead of assembled, so that's where I spend the extra day.",
+  },
 ];

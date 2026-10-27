@@ -2,134 +2,105 @@
 
 import { useState } from "react";
 import { projects, type Project } from "@/data/content";
-import { ArrowRight, ArrowUpRight, Github } from "./icons";
-import Reveal from "./Reveal";
 
-const VISIBLE_TAGS = 4;
-
-function Shot({ project, priority = false }: { project: Project; priority?: boolean }) {
+function Shot({ project, eager = false, className = "" }: { project: Project; eager?: boolean; className?: string }) {
   const [failed, setFailed] = useState(false);
   return (
-    <div className="relative aspect-[16/9] overflow-hidden border-b border-line bg-surface-2">
+    <div className={`overflow-hidden rounded-soft border border-rule bg-paper-2 ${className}`}>
       {!failed ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={project.shot}
           alt={`Screenshot of ${project.name}`}
-          loading={priority ? "eager" : "lazy"}
+          loading={eager ? "eager" : "lazy"}
           onError={() => setFailed(true)}
-          className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+          className="block h-full w-full object-cover object-top"
         />
       ) : (
-        <div className="grid h-full w-full place-items-center bg-[radial-gradient(circle_at_30%_20%,var(--accent-soft),transparent_60%)]">
-          <span className="text-2xl font-semibold tracking-tight text-muted">{project.name}</span>
-        </div>
-      )}
-      {project.featured && (
-        <span className="absolute left-3 top-3 rounded-full border border-line bg-bg/80 px-2.5 py-1 text-[11px] font-medium text-accent backdrop-blur">
-          Featured
-        </span>
+        <div className="grid h-full min-h-40 place-items-center font-serif text-h3 text-ink-3">{project.name}</div>
       )}
     </div>
   );
 }
 
-function Tags({ items }: { items: string[] }) {
-  const shown = items.slice(0, VISIBLE_TAGS);
-  const extra = items.length - shown.length;
+function Links({ p }: { p: Project }) {
   return (
-    <ul className="flex flex-wrap gap-2" aria-label="Tech stack">
-      {shown.map((s) => (
-        <li key={s} className="rounded-md border border-line bg-surface-2 px-2.5 py-1 text-xs">
-          {s}
-        </li>
-      ))}
-      {extra > 0 && (
-        <li className="rounded-md border border-line bg-surface-2 px-2.5 py-1 text-xs text-muted" title={items.slice(VISIBLE_TAGS).join(", ")}>
-          +{extra}
-          <span className="sr-only"> more: {items.slice(VISIBLE_TAGS).join(", ")}</span>
-        </li>
+    <p className="flex gap-5 text-small">
+      {p.live && (
+        <a href={p.live} target="_blank" rel="noopener noreferrer" className="link text-accent">
+          open the demo<span className="sr-only"> of {p.name} (new tab)</span> ↗
+        </a>
       )}
-    </ul>
+      {p.code && (
+        <a href={p.code} target="_blank" rel="noopener noreferrer" className="link text-ink-2">
+          source<span className="sr-only"> of {p.name} on GitHub (new tab)</span>
+        </a>
+      )}
+    </p>
   );
 }
 
-function Card({ p, priority }: { p: Project; priority: boolean }) {
+const Stack = ({ items }: { items: string[] }) => <p className="font-mono text-meta text-ink-3">{items.join(" / ")}</p>;
+
+/** The lead project gets the room: a wide screenshot, then text split unevenly beneath it. */
+export function LeadProject() {
+  const p = projects.find((x) => x.featured)!;
   return (
-    <article
-      id={`project-${p.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface/80 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[var(--shadow)]"
-    >
-      <Shot project={p} priority={priority} />
-      <div className="flex flex-1 flex-col gap-5 p-6">
-        <div>
-          <h3 className="text-xl font-semibold tracking-tight">{p.name}</h3>
-          <p className="mt-0.5 text-xs uppercase tracking-wider text-accent">{p.kind}</p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted">{p.summary}</p>
+    <article id={`project-${p.slug}`} className="grid grid-cols-12 gap-x-5">
+      <Shot project={p} eager className="col-span-12 aspect-[16/9]" />
+      <div className="col-span-12 mt-5 md:col-span-4">
+        <h3 className="font-serif text-h3">{p.name}</h3>
+        <p className="mt-1 text-small text-ink-2">{p.kind}</p>
+        <div className="mt-3">
+          <Stack items={p.stack} />
         </div>
-        <Tags items={p.stack} />
-        <ul className="space-y-2.5 text-sm leading-relaxed text-muted">
-          {p.highlights.slice(0, 3).map((h) => (
-            <li key={h} className="flex gap-2.5">
-              <ArrowRight className="mt-[3px] h-4 w-4 shrink-0 text-accent" />
+      </div>
+      <div className="col-span-12 mt-3 md:col-span-7 md:col-start-6 md:mt-5">
+        <p className="text-lead text-ink">{p.summary}</p>
+        <ul className="mt-5 space-y-2 text-small text-ink-2">
+          {p.highlights.map((h) => (
+            <li key={h} className="grid grid-cols-[20px_1fr]">
+              <span className="text-ink-3" aria-hidden="true">
+                –
+              </span>
               <span>{h}</span>
             </li>
           ))}
         </ul>
-        {p.note && <p className="text-xs text-muted">{p.note}</p>}
-
-        <div className="mt-auto flex items-center justify-between gap-3 pt-2">
-          {p.live ? (
-            <a
-              href={p.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-bg transition hover:opacity-90"
-            >
-              Live demo <ArrowRight />
-              <span className="sr-only">of {p.name} (opens in a new tab)</span>
-            </a>
-          ) : (
-            <span className="text-xs text-muted">Live demo coming soon</span>
-          )}
-          <div className="flex items-center gap-1">
-            {p.code && (
-              <a
-                href={p.code}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${p.name} source code on GitHub (opens in a new tab)`}
-                className="grid h-9 w-9 place-items-center rounded-lg text-muted transition hover:bg-surface-2 hover:text-fg"
-              >
-                <Github />
-              </a>
-            )}
-            {p.live && (
-              <a
-                href={p.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Open ${p.name} (opens in a new tab)`}
-                className="grid h-9 w-9 place-items-center rounded-lg text-muted transition hover:bg-surface-2 hover:text-fg"
-              >
-                <ArrowUpRight />
-              </a>
-            )}
-          </div>
+        {p.note && <p className="mt-3 text-small italic text-ink-2">{p.note}</p>}
+        <div className="mt-5">
+          <Links p={p} />
         </div>
       </div>
     </article>
   );
 }
 
-export default function ProjectGrid() {
+/** Everything else as a ruled list: number, name, the point, a small picture off to the side. */
+export default function ProjectList() {
+  const rest = projects.filter((p) => !p.featured);
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      {projects.map((p, i) => (
-        <Reveal key={p.slug} delay={(i % 2) * 90} className="h-full">
-          <Card p={p} priority={i < 2} />
-        </Reveal>
+    <ol className="border-t border-rule">
+      {rest.map((p, i) => (
+        <li key={p.slug} id={`project-${p.slug}`} className="grid grid-cols-12 gap-x-5 gap-y-3 border-b border-rule py-8 last:border-b-0">
+          <span className="col-span-12 font-mono text-meta text-ink-3 md:col-span-1 md:pt-2">0{i + 2}</span>
+          <div className="col-span-12 md:col-span-3">
+            <h3 className="font-serif text-h3">{p.name}</h3>
+            <p className="mt-1 text-small text-ink-2">{p.kind}</p>
+          </div>
+          <div className="col-span-12 md:col-span-5">
+            <p className="text-body">{p.summary}</p>
+            <p className="mt-3 text-small text-ink-2">{p.highlights[0]}</p>
+            <div className="mt-3">
+              <Stack items={p.stack} />
+            </div>
+            <div className="mt-3">
+              <Links p={p} />
+            </div>
+          </div>
+          <Shot project={p} className="col-span-12 aspect-[4/3] md:col-span-3" />
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
