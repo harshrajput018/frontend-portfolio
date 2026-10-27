@@ -41,6 +41,8 @@ export const tags: Tag[] = ["Real-time", "Performance", "Canvas", "Editor", "Acc
 export const projects: Project[] = [
   {
     slug: "inkboard",
+    live: "https://inkboard-eight.vercel.app",
+    code: "https://github.com/harshrajput018/inkboard",
     name: "Inkboard",
     kind: "Multiplayer whiteboard",
     summary:
@@ -59,6 +61,8 @@ export const projects: Project[] = [
   },
   {
     slug: "gridline",
+    live: "https://gridline-roan-phi.vercel.app",
+    code: "https://github.com/harshrajput018/gridline",
     name: "Gridline",
     kind: "100,000-row data grid",
     summary:
@@ -74,6 +78,8 @@ export const projects: Project[] = [
   },
   {
     slug: "stanza",
+    live: "https://stanza-two.vercel.app",
+    code: "https://github.com/harshrajput018/stanza",
     name: "Stanza",
     kind: "Notion-style block editor",
     summary:
@@ -89,6 +95,8 @@ export const projects: Project[] = [
   },
   {
     slug: "halo-ui",
+    live: "https://halo-ui-ruby.vercel.app",
+    code: "https://github.com/harshrajput018/halo-ui",
     name: "Halo UI",
     kind: "Accessible component library",
     summary:
