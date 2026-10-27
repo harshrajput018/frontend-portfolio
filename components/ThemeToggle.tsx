@@ -21,7 +21,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={theme ? `Switch to ${next} theme` : "Toggle theme"}
-      className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface text-muted transition hover:text-fg"
+      className="grid h-9 w-9 place-items-center rounded-lg text-muted transition hover:bg-surface-2 hover:text-fg"
     >
       {theme === "light" ? <Moon /> : <Sun />}
     </button>

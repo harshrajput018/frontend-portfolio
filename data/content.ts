@@ -10,7 +10,7 @@ export const profile = {
   github: "https://github.com/harshrajput018",
   linkedin: "https://www.linkedin.com/in/harsh-rajput-0542a4185/",
   resume: "/resume-harsh.pdf",
-  source: "https://github.com/harshrajput018",
+  source: "https://github.com/harshrajput018/frontend-portfolio",
 };
 
 export const stats = [
@@ -114,20 +114,9 @@ export const projects: Project[] = [
 
 export const experience = [
   {
-    company: "Agile Receivables",
-    role: "Full-Stack Developer",
-    period: "Oct 2026 — Present",
-    place: "Remote",
-    points: [
-      "Building patient-reply review screens for a healthcare collections platform in Next.js and TypeScript: a tabbed review queue, slide-over review panel, live count cards and an override dialog.",
-      "Wiring screens to FastAPI with RTK Query and tag-based cache invalidation, using shadcn/Radix UI and Tailwind CSS behind a feature flag.",
-    ],
-    stack: ["Next.js", "TypeScript", "RTK Query", "Tailwind", "Radix UI"],
-  },
-  {
     company: "Primus Softech Solutions",
     role: "Full-Stack Developer",
-    period: "Jan 2026 — Oct 2026",
+    period: "Jan 2026 — Present",
     place: "New Delhi",
     points: [
       "Built a production cross-platform app (Ionic React, TypeScript, Capacitor) for real-time monitoring and control of AC, lighting, CCTV, fault diagnostics and emergency alarms on Vande Bharat trainsets.",
